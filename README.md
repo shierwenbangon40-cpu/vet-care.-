@@ -2,63 +2,69 @@
 
 ```mermaid
 graph LR
-    subgraph VetCare [VetCare Veterinary Management System]
-        %% Authentication
-        L([Register Account / Sign Up])
+    %% Left Actors
+    Admin["👤 Admin"]
+    Vet["👤 Veterinarian"]
+
+    subgraph VetCare [VetCare Management System]
+        %% Authentication & Profiles
+        SU([Sign Up / Register])
         LI([Login / Logout])
         FP([Forgot Password])
 
-        %% User Management (Admin)
-        AU([Add New User & Assign Role])
-        EU([Edit User Details & Permissions])
+        %% Admin & User Operations
+        UM([User Management])
+        AU([Add User])
+        EU([Edit User Details])
         DU([Delete User Account])
-        VU([View Registered Users List])
+        RU([View Registered Users])
 
         %% Dashboard & Profile Settings
-        VD([View Admin Dashboard Metrics])
-        EAP([Edit Admin Profile & Settings])
-        MCI([Manage Clinic Information])
-        MOH([Set Operating Hours & Alerts])
+        VD([View Dashboard Metrics])
+        APS([Admin Profile Settings])
+        CI([Manage Clinic Info])
+        OH([Set Operating Hours])
         CP([Change Password])
 
-        %% Pet Profile & Details
-        AP([Add New Pet Profile & Photo])
-        VP([View All Pets by Species - Dog, Cat, Rabbit, Bird])
-        SP([Search Pet by Name, ID, or Owner])
-        UPD([Update Pet Details & Photo])
+        %% Pet Profile & Categorization
+        AP([Add Pet Record])
+        SP([Search Pet Record])
+        VP([View All Pets])
+        VDC([View Pets by Category - Dog, Cat, Rabbit, Bird])
 
-        %% Clinical & Health Records
-        VMR([View Medical History Logs])
-        UMR([Add / Update Medical Record])
-        VVR([View Vaccination Logs])
+        %% Health & Clinical Records
+        MH([View Medical History])
+        AMR([Add/Update Medical Record])
+        VL([View Vaccination Logs])
         UVR([Update Vaccination Record])
 
         %% Appointment Management & Status Filters
-        BA([Book New Appointment])
-        VPB([View Pending Appointment Requests])
-        VCA([View Confirmed Appointments])
-        VCM([View Completed Visits])
-        VCN([View Cancelled Visits])
+        BA([Book Appointment])
+        PA([View Pending Requests])
+        CA([View Confirmed Visits])
+        CV([View Completed Visits])
+        CX([View Cancelled Visits])
         RA([Reschedule Appointment])
 
-        %% Messaging & Communication
-        SM([Send Message / Chat])
-        RM([Receive Client Messages in Inbox])
+        %% Communication
+        MSG([Send / Receive Messages])
 
-        %% Reports & Analytics (Admin)
-        VAR([View Appointment Reports & Peak Times])
-        VPR([View Pet Reports & Demographics])
-        VUR([View User Reports & System Logs])
-        VVR2([View Veterinarian Performance Reports])
-        VSR([View Service Revenue Reports])
+        %% Analytics & Reports
+        AR([Appointment Reports])
+        PR([Pet Demographics Reports])
+        UR([User Activity Reports])
+        VR([Veterinarian Reports])
+        SR([Service Revenue Reports])
     end
 
-    %% Admin Connections (Full System Access)
-    Admin --- LI & FP & AU & EU & DU & VU & VD & EAP & MCI & MOH & CP & AP & VP & SP & UPD & VMR & UMR & VVR & UVR & VPB & VCA & VCM & VCN & RA & RM & VAR & VPR & VUR & VVR2 & VSR
+    %% Right Actor
+    Owner["👤 Pet Owner"]
 
-    %% Veterinarian Connections (Clinical Operations)
-    Vet --- LI & FP & VP & SP & VMR & UMR & VVR & UVR & VCA & VCM & RM
+    %% Admin Connections (Left)
+    Admin --- LI & FP & UM & AU & EU & DU & RU & VD & APS & CI & OH & CP & AP & SP & VP & VDC & MH & AMR & VL & UVR & PA & CA & CV & CX & RA & MSG & AR & PR & UR & VR & SR
 
-    %% Pet Owner Connections (Client Actions)
-    Owner --- L & LI & FP & AP & VP & SP & UPD & VMR & VVR & BA & RA & SM
-'''
+    %% Vet Connections (Left)
+    Vet --- LI & FP & SP & VP & VDC & MH & AMR & VL & UVR & CA & CV & MSG
+
+    %% Pet Owner Connections (Right)
+    Owner --- SU & LI & FP & AP & SP & VP & VDC & MH & VL & BA & RA & MSG
